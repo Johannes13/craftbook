@@ -285,6 +285,8 @@ public class Gate extends Mechanic {
      */
     @Override
     public void onRightClick(BlockRightClickEvent event) {
+        if (!plugin.getLocalConfiguration().gateSettings.enable) return;
+        
         LocalPlayer player = plugin.wrap(event.getPlayer());
         if (toggleGates(pt, smallSearchSize)) {
             player.print("Gate toggled!");
@@ -299,10 +301,16 @@ public class Gate extends Mechanic {
      * @param event
      */
     @Override
-    public void onBlockRedstoneChange(BlockRedstoneEvent event) {
+    public void onBlockRedstoneChange(final BlockRedstoneEvent event) {
+        if (!plugin.getLocalConfiguration().gateSettings.enableRedstone) return;
+        
         if (event.getNewCurrent() == event.getOldCurrent()) return;
         
-        setGateState(pt, event.getNewCurrent() > 0, smallSearchSize);
+        plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+            public void run() {
+                setGateState(pt, event.getNewCurrent() > 0, smallSearchSize);
+            }
+        }, 2);
     }
 
     @Override

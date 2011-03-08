@@ -16,27 +16,23 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-package com.sk89q.craftbook.circuits;
+package com.sk89q.craftbook.ic;
 
-import static com.sk89q.craftbook.bukkit.BukkitUtil.toLocation;
-import com.sk89q.craftbook.MechanicFactory;
-import com.sk89q.craftbook.util.BlockWorldVector;
-import com.sk89q.worldedit.blocks.BlockID;
-
-public class JackOLanternFactory implements MechanicFactory<JackOLantern> {
+/**
+ * Represents a self-triggered IC. Self-triggered ICs can think on their own
+ * through use of an external clock signal.
+ * 
+ * @author sk89q
+ */
+public interface SelfTriggeredIC {
     
-    public JackOLanternFactory() {
-    }
-
-    @Override
-    public JackOLantern detect(BlockWorldVector pt) {
-        int type = pt.getWorld().getBlockTypeIdAt(toLocation(pt));
-        
-        if (type == BlockID.PUMPKIN || type == BlockID.JACKOLANTERN) {
-            return new JackOLantern(pt);
-        }
-        
-        return null;
-    }
-
+    /**
+     * Method is called when the IC "thinks" (as triggered by an external
+     * clock signal). The given state allows for accessing the data available
+     * on the pins.
+     * 
+     * @param state
+     */
+    public void think(ChipState state);
+    
 }

@@ -16,25 +16,29 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-package com.sk89q.craftbook.circuits;
+package com.sk89q.craftbook.ic;
 
-import static com.sk89q.craftbook.bukkit.BukkitUtil.toLocation;
-import com.sk89q.craftbook.MechanicFactory;
-import com.sk89q.craftbook.util.BlockWorldVector;
-import com.sk89q.worldedit.blocks.BlockID;
-
-public class NetherrackFactory implements MechanicFactory<Nettherrack> {
+/**
+ * Represents a chip state. Chip states provide information about pin
+ * inputs and outputs.
+ * 
+ * @author sk89q
+ */
+public interface ChipState {
     
-    public NetherrackFactory() {
-    }
-
-    @Override
-    public Nettherrack detect(BlockWorldVector pt) {
-        if (pt.getWorld().getBlockTypeIdAt(toLocation(pt)) == BlockID.NETHERRACK) {
-            return new Nettherrack(pt);
-        }
-        
-        return null;
-    }
-
+    /**
+     * Gets the value at a pin.
+     * 
+     * @param pin
+     * @return
+     */
+    public boolean get(int pin);
+    
+    /**
+     * Set a pin's value.
+     * 
+     * @param pin
+     * @param value
+     */
+    public void set(int pin, boolean value);
 }

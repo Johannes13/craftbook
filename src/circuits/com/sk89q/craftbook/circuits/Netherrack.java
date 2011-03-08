@@ -1,3 +1,4 @@
+
 // $Id$
 /*
  * CraftBook
@@ -15,13 +16,15 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package com.sk89q.craftbook.circuits;
 
+import static com.sk89q.craftbook.bukkit.BukkitUtil.toLocation;
+
 import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockRedstoneEvent;
-import com.sk89q.craftbook.Mechanic;
+import com.sk89q.craftbook.*;
 import com.sk89q.craftbook.util.BlockWorldVector;
 import com.sk89q.worldedit.blocks.BlockID;
 
@@ -30,14 +33,30 @@ import com.sk89q.worldedit.blocks.BlockID;
  *
  * @author sk89q
  */
-public class Nettherrack extends Mechanic {
+public class Netherrack extends Mechanic {
     
+	public static class Factory implements MechanicFactory<Netherrack> {
+        public Factory() {
+        }
+        
+        @Override
+        public Netherrack detect(BlockWorldVector pt) {
+            int type = pt.getWorld().getBlockTypeIdAt(toLocation(pt));
+            
+            if (type == BlockID.NETHERRACK) {
+                return new Netherrack(pt);
+            }
+            
+            return null;
+        }
+    }
+	
     /**
-     * Construct a bookcase for a location.
+     * Construct the mechanic for a location.
      * 
      * @param pt
      */
-    public Nettherrack(BlockWorldVector pt) {
+    private Netherrack(BlockWorldVector pt) {
         super();
     }
     
@@ -65,7 +84,7 @@ public class Nettherrack extends Mechanic {
     @Override
     public void unload() {
     }
-
+	
     /**
      * Check if this mechanic is still active.
      */
@@ -73,5 +92,5 @@ public class Nettherrack extends Mechanic {
     public boolean isActive() {
         return false;
     }
-
+	
 }
